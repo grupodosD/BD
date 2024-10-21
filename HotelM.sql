@@ -1,17 +1,15 @@
 CREATE DATABASE HotelM;
 
-
 USE HotelM;
 
 -- Criar a tabela Cliente com criptografia para a coluna Senha
-INSERT INTO Cliente (Id_Cliente, Nome, Cpf, Endereco, Senha, Telefone)
-VALUES (
-    0, 
-    'N/A',
-    '00000000000', 
-    NULL,
-    AES_ENCRYPT(NULL, @chave_secreta), 
-    NULL
+CREATE TABLE Cliente (
+    Id_Cliente INT PRIMARY KEY NOT NULL auto_increment,
+    Nome VARCHAR(20),
+    Cpf char (11) UNIQUE NOT NULL,
+    Endereco VARCHAR(20),
+    Senha VARBINARY(255),
+    Telefone CHAR (11)
 );
 
 -- Criar a tabela Reserva
@@ -107,7 +105,6 @@ SET @chave_secreta = UNHEX('526F79616C506C616365000000000000');
 
 INSERT INTO Cargo ( NomeCargo) values (
 'testador'
-'gerente' 
 );
 
 INSERT INTO Funcionario (Id_Cargo, Nome, Senha, Nacimento, Telefone, Cpf, Cargo, Efetivado, Salario)
@@ -123,49 +120,6 @@ VALUES (
     5000.00
 );
 
-
-INSERT INTO Cliente (Nome, Cpf, Endereco, Senha, Telefone)
-VALUES (
-    'João Silva',
-    '12345678901',
-    'Rua Exemplo, 123',
-    AES_ENCRYPT('senha123', @chave_secreta), -- Criptografar a senha
-    '11999999999'
-);
-
-
-INSERT INTO Cliente (Id_Cliente, Nome, Cpf, Endereco, Senha, Telefone)
-VALUES (
-    0, 
-    'N/A',
-    NULL,
-    NULL,
-    AES_ENCRYPT(NULL, @chave_secreta), -- Criptografar a senha
-    NULL
-);
-
-
-INSERT INTO Reserva (Id_Cliente, Data_Checkin, Data_Checkout, Status_Reserva)
-VALUES (1, '2024-10-12', '2024-10-15', 'Reservado');
-
-INSERT INTO Reserva (Id_Cliente, Data_Checkin, Data_Checkout, Status_Reserva)
-VALUES (0, '2024-10-12', '9999-12-31', 'Reservado');
-
-
-SELECT * FROM Reserva;
-
-INSERT INTO Tipos_Quartos (Suite) VALUES ('Suíte Master');
-
-INSERT INTO Quarto (Id_TipoQuarto, Status_Quartos, Id_Cliente, Id_Reserva)
-VALUES (1, 'Disponível', 1, 1);
-INSERT INTO Quarto (Id_TipoQuarto, Status_Quartos, Id_Cliente, Id_Reserva)
-VALUES (null, 'ocupado', 1, 1);
-
-select*from quarto;
-
-UPDATE quarto
-SET Id_Reserva= 5
-WHERE Id_Cliente = 0; 
 
 
 -- Exemplo de seleção de dados descriptografados
